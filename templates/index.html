@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>سایت آرزوها 🌟</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d0f14;--surface:#161b25;--card:#1e2535;--accent:#4f8ef7;--accent2:#a78bfa;--text:#e8eaf0;--muted:#6b7280;--border:rgba(255,255,255,0.07)}
+body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body::before{content:'';position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(79,142,247,0.1) 0%,transparent 70%);pointer-events:none;z-index:0}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(13,15,20,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+.nav-links{display:flex;gap:0.4rem;list-style:none;align-items:center}
+.nav-links a{padding:0.5rem 1rem;border-radius:8px;color:var(--muted);text-decoration:none;font-size:0.9rem;font-weight:500;transition:all 0.2s}
+.nav-links a:hover{color:var(--text);background:var(--card)}
+.btn{padding:0.6rem 1.4rem;border-radius:10px;font-family:'Vazirmatn',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;text-decoration:none;display:inline-block}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#3b6fd4);color:#fff;box-shadow:0 4px 20px rgba(79,142,247,0.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(79,142,247,0.4)}
+.btn-ghost{background:var(--card);color:var(--text);border:1px solid var(--border)}
+main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:3rem 1.5rem 5rem}
+.hero{text-align:center;padding:5rem 1rem 4rem}
+.hero-badge{display:inline-block;padding:0.35rem 1rem;background:rgba(79,142,247,0.12);border:1px solid rgba(79,142,247,0.3);border-radius:999px;font-size:0.8rem;color:var(--accent);margin-bottom:1.5rem;letter-spacing:0.03em}
+.hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;line-height:1.2;margin-bottom:1rem;background:linear-gradient(160deg,#fff 40%,var(--muted));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);font-size:1.05rem;max-width:500px;margin:0 auto 2.5rem;line-height:1.8}
+.hero-btns{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:4rem}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-align:center;transition:border-color 0.2s}
+.stat-card:hover{border-color:rgba(79,142,247,0.3)}
+.stat-num{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{color:var(--muted);font-size:0.85rem;margin-top:0.25rem}
+.section{margin-top:4rem}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+.section-title{font-size:1.3rem;font-weight:800}
+.wishes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem}
+.wish-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;transition:all 0.2s;position:relative;overflow:hidden}
+.wish-card::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:linear-gradient(to bottom,var(--accent),var(--accent2));opacity:0;transition:opacity 0.2s}
+.wish-card:hover{border-color:rgba(79,142,247,0.25);transform:translateY(-3px)}
+.wish-card:hover::before{opacity:1}
+.wish-card h3{font-size:1rem;font-weight:700;margin-bottom:0.5rem;line-height:1.4}
+.wish-card p{color:var(--muted);font-size:0.85rem;line-height:1.7;margin-bottom:1rem}
+.wish-footer{display:flex;justify-content:space-between;align-items:center}
+.wish-user{font-size:0.8rem;color:var(--muted)}
+.badge{padding:0.2rem 0.65rem;border-radius:999px;font-size:0.75rem;font-weight:600}
+.badge-approved{background:rgba(79,142,247,0.15);color:#4f8ef7}
+.badge-fulfilled{background:rgba(52,211,153,0.15);color:#34d399}
+.report-btn{position:absolute;top:0.75rem;left:0.75rem;background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.8rem;opacity:0;transition:opacity 0.2s;padding:0.25rem 0.5rem;border-radius:6px}
+.wish-card:hover .report-btn{opacity:1}
+.report-btn:hover{background:rgba(248,113,113,0.1);color:#f87171}
+.fulfilled-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem}
+.fulfilled-card{background:linear-gradient(135deg,rgba(52,211,153,0.08),rgba(167,139,250,0.08));border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:1.25rem;text-align:center}
+.fulfilled-card .icon{font-size:1.75rem;margin-bottom:0.5rem}
+.fulfilled-card h3{font-size:0.9rem;font-weight:600;margin-bottom:0.3rem}
+.fulfilled-card p{color:var(--muted);font-size:0.8rem}
+.empty{text-align:center;padding:4rem;color:var(--muted)}
+.empty-icon{font-size:3rem;display:block;margin-bottom:1rem;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.flash{padding:0.75rem 1.25rem;border-radius:10px;margin-bottom:1.5rem;font-size:0.9rem}
+.flash-success{background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.3);color:#34d399}
+.flash-error{background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);color:#f87171}
+@media(max-width:600px){nav{padding:0.75rem 1rem}.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">🌟 سایت آرزوها</a>
+  <ul class="nav-links">
+    {% if current_user.is_authenticated %}
+      <li><a href="/dashboard">داشبورد</a></li>
+      {% if current_user.is_admin %}<li><a href="/admin">پنل ادمین</a></li>{% endif %}
+      <li><a href="/wish/new" class="btn btn-primary">+ ثبت آرزو</a></li>
+      <li><a href="/logout">خروج</a></li>
+    {% else %}
+      <li><a href="/login">ورود</a></li>
+      <li><a href="/register" class="btn btn-primary">ثبت‌نام رایگان</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+<main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}
+      <div class="flash flash-{{ cat }}">{{ msg }}</div>
+    {% endfor %}
+  {% endwith %}
+
+  <div class="hero">
+    <span class="hero-badge">✨ جایی برای رویاهات</span>
+    <h1>آرزوت رو بنویس<br/>شاید برآورده بشه 🌠</h1>
+    <p>هر آرزویی داری اینجا ثبت کن. شاید یه خیّر اون رو برات برآورده کنه.</p>
+    <div class="hero-btns">
+      <a href="/register" class="btn btn-primary">همین الان شروع کن</a>
+      <a href="#wishes" class="btn btn-ghost">آرزوها رو ببین ↓</a>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-num">{{ total }}</div>
+      <div class="stat-label">آرزوی ثبت شده</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ total_fulfilled }}</div>
+      <div class="stat-label">آرزوی برآورده شده ✨</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">۱۰۰٪</div>
+      <div class="stat-label">امن و مطمئن</div>
+    </div>
+  </div>
+
+  {% if fulfilled %}
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">🌟 آرزوهای برآورده شده</div>
+    </div>
+    <div class="fulfilled-grid">
+      {% for w in fulfilled %}
+      <div class="fulfilled-card">
+        <div class="icon">✨</div>
+        <h3>{{ w.title[:40] }}{% if w.title|length > 40 %}...{% endif %}</h3>
+        <p>@{{ w.user.username }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="section" id="wishes">
+    <div class="section-header">
+      <div class="section-title">🌙 آرزوهای اخیر</div>
+    </div>
+    {% if wishes %}
+    <div class="wishes-grid">
+      {% for w in wishes %}
+      <div class="wish-card">
+        {% if current_user.is_authenticated %}
+        <button class="report-btn" onclick="report({{ w.id }}, this)">🚩 گزارش</button>
+        {% endif %}
+        <h3>{{ w.title }}</h3>
+        <p>{{ w.description[:130] }}{% if w.description|length > 130 %}...{% endif %}</p>
+        <div class="wish-footer">
+          <span class="wish-user">@{{ w.user.username }}</span>
+          <span class="badge badge-approved">⏳ در انتظار</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">
+      <span class="empty-icon">🌙</span>
+      هنوز آرزویی ثبت نشده.<br/>اولین نفر باش!
+    </div>
+    {% endif %}
+  </div>
+</main>
+
+<script>
+function report(id, btn) {
+  if (!confirm('این آرزو رو به عنوان محتوای نامناسب گزارش میدی؟')) return;
+  fetch('/wish/' + id + '/report', {method: 'POST'})
+    .then(() => { btn.textContent = '✅ گزارش شد'; btn.disabled = true; });
+}
+</script>
+</body>
+</html>

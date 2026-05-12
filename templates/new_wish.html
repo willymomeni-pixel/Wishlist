@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ثبت آرزو — سایت آرزوها</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d0f14;--surface:#161b25;--card:#1e2535;--accent:#4f8ef7;--accent2:#a78bfa;--text:#e8eaf0;--muted:#6b7280;--border:rgba(255,255,255,0.07)}
+body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+body::before{content:'';position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(167,139,250,0.08) 0%,transparent 70%);pointer-events:none}
+.box{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:100%;max-width:520px}
+h2{font-size:1.5rem;font-weight:800;margin-bottom:0.4rem}
+.sub{color:var(--muted);font-size:0.88rem;margin-bottom:1.5rem;line-height:1.6}
+.price-box{background:rgba(79,142,247,0.08);border:1px solid rgba(79,142,247,0.2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;font-size:0.9rem}
+.price-box strong{color:var(--accent);font-size:1.1rem;font-weight:800}
+.balance-info{font-size:0.82rem;color:var(--muted)}
+.balance-info span{color:{% if balance >= price %}#34d399{% else %}#f87171{% endif %}}
+.rules{background:var(--card);border-radius:10px;padding:1rem;margin-bottom:1.5rem;font-size:0.83rem;color:var(--muted);line-height:1.9}
+.rules li{margin-right:1rem}
+label{display:block;font-size:0.85rem;color:var(--muted);margin-bottom:0.4rem}
+input,textarea{width:100%;padding:0.75rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:0.95rem;margin-bottom:1.25rem;outline:none;transition:border-color 0.2s}
+input:focus,textarea:focus{border-color:var(--accent)}
+textarea{resize:vertical;min-height:130px}
+.counter{font-size:0.78rem;color:var(--muted);text-align:left;margin-top:-1rem;margin-bottom:1rem}
+.btn{width:100%;padding:0.85rem;border-radius:10px;font-family:'Vazirmatn',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;border:none;background:linear-gradient(135deg,var(--accent),#3b6fd4);color:#fff;transition:all 0.2s}
+.btn:hover{transform:translateY(-1px)}
+.back{display:block;text-align:center;margin-top:1rem;color:var(--muted);font-size:0.85rem;text-decoration:none}
+.back:hover{color:var(--text)}
+.flash{padding:0.65rem 1rem;border-radius:8px;margin-bottom:1rem;font-size:0.85rem}
+.flash-error{background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);color:#f87171}
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>🌙 ثبت آرزو</h2>
+  <p class="sub">آرزوت رو بنویس. شاید یه خیّر اون رو برات برآورده کنه!</p>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}
+      <div class="flash flash-{{ cat }}">{{ msg }}</div>
+    {% endfor %}
+  {% endwith %}
+
+  <div class="price-box">
+    <span>هزینه ثبت آرزو: <strong>{{ "{:,}".format(price) }} تومان</strong></span>
+    <span class="balance-info">موجودی شما: <span>{{ "{:,}".format(balance) }}</span></span>
+  </div>
+
+  <ul class="rules">
+    <li>آرزوها باید واقعی، قانونی و اخلاقی باشن</li>
+    <li>محتوای مضر، خشن یا غیرقانونی پذیرفته نمیشه</li>
+    <li>آرزو بعد از تایید ادمین نمایش داده میشه</li>
+    <li>در صورت رد شدن، مبلغ برمیگرده</li>
+  </ul>
+
+  <form method="POST">
+    <label>عنوان آرزو</label>
+    <input type="text" name="title" id="title" placeholder="مثلاً: یه لپ‌تاپ برای درس خوندن" required minlength="5" maxlength="100"/>
+
+    <label>توضیح بیشتر</label>
+    <textarea name="description" id="desc" placeholder="بنویس چرا این آرزو رو داری و چطور زندگیت رو تغییر میده..." required minlength="20" maxlength="500"></textarea>
+    <div class="counter" id="counter">0 / 500</div>
+
+    <button type="submit" class="btn">✨ ثبت آرزو و پرداخت {{ "{:,}".format(price) }} تومان</button>
+  </form>
+  <a href="/dashboard" class="back">← برگشت به داشبورد</a>
+</div>
+<script>
+const desc = document.getElementById('desc');
+const counter = document.getElementById('counter');
+desc.addEventListener('input', () => {
+  counter.textContent = desc.value.length + ' / 500';
+});
+</script>
+</body>
+</html>

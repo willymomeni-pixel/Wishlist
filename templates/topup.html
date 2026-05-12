@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>شارژ موجودی — سایت آرزوها</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d0f14;--surface:#161b25;--card:#1e2535;--accent:#4f8ef7;--accent2:#a78bfa;--text:#e8eaf0;--muted:#6b7280;--border:rgba(255,255,255,0.07)}
+body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.box{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:100%;max-width:460px}
+h2{font-size:1.5rem;font-weight:800;margin-bottom:0.4rem}
+.sub{color:var(--muted);font-size:0.88rem;line-height:1.7;margin-bottom:1.75rem}
+.card-box{background:var(--card);border:1px solid rgba(79,142,247,0.2);border-radius:14px;padding:1.5rem;margin-bottom:1.75rem}
+.card-label{font-size:0.78rem;color:var(--muted);margin-bottom:0.25rem}
+.card-value{font-size:1.2rem;font-weight:800;letter-spacing:2px;margin-bottom:1rem;color:var(--text)}
+.card-name{font-size:0.95rem;color:var(--muted)}
+.steps{margin-bottom:1.75rem}
+.step{display:flex;gap:0.75rem;align-items:flex-start;padding:0.65rem 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-num{width:26px;height:26px;background:rgba(79,142,247,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px}
+.step-text{font-size:0.88rem;color:var(--muted);line-height:1.6}
+.btn{display:block;width:100%;padding:0.85rem;border-radius:10px;font-family:'Vazirmatn',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;border:none;background:linear-gradient(135deg,var(--accent),#3b6fd4);color:#fff;text-decoration:none;text-align:center;margin-bottom:0.75rem;transition:all 0.2s}
+.btn:hover{transform:translateY(-1px)}
+.back{display:block;text-align:center;color:var(--muted);font-size:0.85rem;text-decoration:none}
+.back:hover{color:var(--text)}
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>💳 شارژ موجودی</h2>
+  <p class="sub">مبلغ رو به شماره کارت زیر واریز کن و رسید رو به ایمیل پشتیبانی بفرست.</p>
+
+  <div class="card-box">
+    <div class="card-label">شماره کارت</div>
+    <div class="card-value">{{ card }}</div>
+    <div class="card-label">به نام</div>
+    <div class="card-name">{{ cardholder }}</div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">۱</div>
+      <div class="step-text">مبلغ مورد نظر رو به شماره کارت بالا واریز کن</div>
+    </div>
+    <div class="step">
+      <div class="step-num">۲</div>
+      <div class="step-text">تصویر رسید رو بگیر</div>
+    </div>
+    <div class="step">
+      <div class="step-num">۳</div>
+      <div class="step-text">رسید رو به همراه نام کاربریت به ایمیل پشتیبانی بفرست</div>
+    </div>
+    <div class="step">
+      <div class="step-num">۴</div>
+      <div class="step-text">بعد از تایید، موجودیت شارژ میشه (معمولاً زیر ۱ ساعت)</div>
+    </div>
+  </div>
+
+  <a href="mailto:{{ support_email }}" class="btn">📧 ارسال رسید به {{ support_email }}</a>
+  <a href="/dashboard" class="back">← برگشت به داشبورد</a>
+</div>
+</body>
+</html>

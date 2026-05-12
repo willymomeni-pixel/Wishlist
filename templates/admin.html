@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>پنل ادمین — سایت آرزوها</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0d0f14;--surface:#161b25;--card:#1e2535;--accent:#4f8ef7;--accent2:#a78bfa;--text:#e8eaf0;--muted:#6b7280;--border:rgba(255,255,255,0.07)}
+body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:2rem}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2.5rem}
+h1{font-size:1.6rem;font-weight:800}
+a.back-btn{color:var(--muted);text-decoration:none;font-size:0.9rem}
+a.back-btn:hover{color:var(--text)}
+.tabs{display:flex;gap:0.5rem;margin-bottom:2rem;border-bottom:1px solid var(--border);padding-bottom:0}
+.tab{padding:0.6rem 1.25rem;border-radius:8px 8px 0 0;font-size:0.9rem;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);font-family:'Vazirmatn',sans-serif;transition:all 0.2s}
+.tab.active{background:var(--surface);color:var(--text);border:1px solid var(--border);border-bottom:1px solid var(--surface);margin-bottom:-1px}
+.tab-content{display:none}.tab-content.active{display:block}
+.wish-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:0.75rem}
+.wish-card h3{font-size:0.95rem;font-weight:600;margin-bottom:0.35rem}
+.wish-card p{color:var(--muted);font-size:0.85rem;line-height:1.5;margin-bottom:0.75rem}
+.wish-meta{font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem}
+.actions{display:flex;gap:0.5rem;flex-wrap:wrap}
+.btn{padding:0.4rem 1rem;border-radius:8px;font-family:'Vazirmatn',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;border:none;text-decoration:none;display:inline-block;transition:all 0.2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-approve{background:rgba(52,211,153,0.15);color:#34d399}
+.btn-reject{background:rgba(248,113,113,0.15);color:#f87171}
+.btn-fulfill{background:rgba(167,139,250,0.15);color:#a78bfa}
+.btn-charge{background:rgba(79,142,247,0.15);color:#4f8ef7}
+.empty{color:var(--muted);font-size:0.9rem;padding:2rem;text-align:center;background:var(--surface);border-radius:12px;border:1px dashed var(--border)}
+.reported-tag{display:inline-block;padding:0.15rem 0.5rem;border-radius:999px;font-size:0.72rem;background:rgba(248,113,113,0.12);color:#f87171;margin-bottom:0.5rem}
+.user-row{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin-bottom:0.6rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem}
+.user-info{font-size:0.88rem}
+.user-info strong{display:block;font-weight:600;margin-bottom:0.2rem}
+.user-info span{color:var(--muted)}
+.charge-form{display:flex;gap:0.5rem;align-items:center}
+.charge-form input{padding:0.4rem 0.75rem;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Vazirmatn',sans-serif;font-size:0.85rem;width:120px;outline:none}
+.charge-form input:focus{border-color:var(--accent)}
+.flash{padding:0.75rem 1.25rem;border-radius:10px;margin-bottom:1.5rem;font-size:0.9rem}
+.flash-success{background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.3);color:#34d399}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🔧 پنل ادمین</h1>
+  <a href="/" class="back-btn">← برگشت به سایت</a>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for cat, msg in messages %}
+    <div class="flash flash-{{ cat }}">{{ msg }}</div>
+  {% endfor %}
+{% endwith %}
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('pending')">⏳ در انتظار ({{ pending|length }})</button>
+  <button class="tab" onclick="showTab('reported')">🚩 گزارش‌شده ({{ reported|length }})</button>
+  <button class="tab" onclick="showTab('users')">👥 کاربران ({{ all_users|length }})</button>
+</div>
+
+<!-- در انتظار تایید -->
+<div class="tab-content active" id="tab-pending">
+  {% if pending %}
+    {% for w in pending %}
+    <div class="wish-card">
+      <h3>{{ w.title }}</h3>
+      <p>{{ w.description }}</p>
+      <div class="wish-meta">👤 {{ w.user.username }} | 📅 {{ w.created_at.strftime('%Y/%m/%d %H:%M') }}</div>
+      <div class="actions">
+        <a href="/admin/wish/{{ w.id }}/approve" class="btn btn-approve">✅ تایید</a>
+        <a href="/admin/wish/{{ w.id }}/reject" class="btn btn-reject">❌ رد (پول برگشت)</a>
+        <a href="/admin/wish/{{ w.id }}/fulfill" class="btn btn-fulfill">🌟 برآورده شد</a>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty">✅ آرزوی در انتظاری نیست.</div>
+  {% endif %}
+</div>
+
+<!-- گزارش‌شده -->
+<div class="tab-content" id="tab-reported">
+  {% if reported %}
+    {% for w in reported %}
+    <div class="wish-card">
+      <span class="reported-tag">🚩 گزارش شده</span>
+      <h3>{{ w.title }}</h3>
+      <p>{{ w.description }}</p>
+      <div class="wish-meta">👤 {{ w.user.username }}</div>
+      <div class="actions">
+        <a href="/admin/wish/{{ w.id }}/approve" class="btn btn-approve">✅ مشکلی نیست</a>
+        <a href="/admin/wish/{{ w.id }}/reject" class="btn btn-reject">❌ حذف</a>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty">✅ گزارشی وجود ندارد.</div>
+  {% endif %}
+</div>
+
+<!-- کاربران -->
+<div class="tab-content" id="tab-users">
+  {% for u in all_users %}
+  <div class="user-row">
+    <div class="user-info">
+      <strong>{{ u.username }} {% if u.is_admin %}<span style="color:var(--accent)">(ادمین)</span>{% endif %}</strong>
+      <span>{{ u.email }} | موجودی: {{ "{:,}".format(u.balance) }} تومان</span>
+    </div>
+    <form method="POST" action="/admin/user/{{ u.id }}/charge" class="charge-form">
+      <input type="number" name="amount" placeholder="مبلغ (تومان)" min="1000"/>
+      <button type="submit" class="btn btn-charge">💰 شارژ</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
